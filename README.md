@@ -25,9 +25,8 @@ https://password-security-analyzer-cysz.onrender.com
 - Flask
 - SQLite
 
-## 📂 Project Structure
+ 📁 Project Structure
 
-```text
 password-security-analyzer/
 ├── app.py
 ├── database.db
@@ -41,7 +40,7 @@ password-security-analyzer/
 
 ## Security Note
 
-The application uses SHA-256 hashing for passwords stored in the password history database. Plain-text passwords are not stored in the password history table.
+The application uses SHA-256 hashing for passwords stored in the password history database. Plain-text passwords are not stored.
 
 ## Project Purpose
 
@@ -54,5 +53,6 @@ This project was developed as an internship project to demonstrate practical imp
 - Password strength evaluation
 - Secure password history handling
 - JavaScript-based password generation
-This allows the application to check whether a password was previously used without storing the original password.
+
+The application checks whether a password was previously used without storing the original password.
 
