@@ -96,10 +96,10 @@ Previously saved passwords are not stored as plain text.
 
 Instead, the application generates a SHA-256 hash and stores the hash in the SQLite database.
 
-This allows the application to check whether a password was previously used without storing the original password.
 
 ## Project Structure
 
+```text
 password-security-analyzer/
 │
 ├── static/
@@ -114,28 +114,39 @@ password-security-analyzer/
 ├── database.db
 ├── requirements.txt
 └── .gitignore
+```
 
 ## Installation
 
 Clone the repository:
 
+```bash
 git clone https://github.com/yuvasreeb/password-security-analyzer.git
+```
 
 Navigate to the project folder:
 
+```bash
 cd password-security-analyzer
+```
 
 Install the required dependencies:
 
+```bash
 pip install -r requirements.txt
+```
 
 Run the application:
 
+```bash
 python app.py
+```
 
 Open the application in your browser:
 
+```text
 http://127.0.0.1:5000
+```
 
 ## Security Note
 
@@ -152,3 +163,5 @@ This project was developed as an internship project to demonstrate practical imp
 - Password strength evaluation
 - Secure password history handling
 - JavaScript-based password generation
+This allows the application to check whether a password was previously used without storing the original password.
+
