@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Password Analysis</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="result-page">
+
+    <div class="result-container">
+
+        <!-- Header -->
+        <div class="result-header">
+
+            <div>
+                <p class="small-title">PASSWORD CHECK</p>
+
+                <h1>Password Analysis</h1>
+
+                <p class="result-subtitle">
+                    Here's the security analysis of your password.
+                </p>
+            </div>
+
+            <a href="/" class="back-btn">
+                ← Back
+            </a>
+
+        </div>
+
+
+        <!-- Password Rules -->
+        <section class="result-card">
+
+            <div class="section-heading">
+
+                <div>
+                    <h2>Password Rules</h2>
+
+                    <p>
+                        Checks performed on your password
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="rules">
+
+                {% for rule in rules %}
+
+                <div class="rule">
+
+                    {% if rule.passed %}
+
+                        <span class="rule-icon">
+                            ✓
+                        </span>
+
+                    {% else %}
+
+                        <span class="rule-icon failed">
+                            ✕
+                        </span>
+
+                    {% endif %}
+
+                    <span>
+                        {{ rule.text }}
+                    </span>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+        </section>
+
+
+        <!-- Password Strength -->
+        <section class="result-card strength-card">
+
+            <div class="strength-top">
+
+                <div>
+
+                    <h2>Password Strength</h2>
+
+                    <p>
+                        Based on the security rules above
+                    </p>
+
+                </div>
+
+
+                <div
+                    class="strength-score"
+                    data-strength="{{ strength }}"
+                >
+
+                    <span>
+                        {{ strength }}%
+                    </span>
+
+                    <small>
+                        {{ strength_label }}
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="strength-bar">
+
+                <div
+                    class="strength-fill"
+                    data-strength="{{ strength }}"
+                ></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Password History -->
+        <section class="result-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>Password History</h2>
+
+                    <p>
+                        Previously saved passwords
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% if history %}
+
+                <div class="history-list">
+
+                    {% for item in history %}
+
+                        <div class="history-item">
+
+                            <div>
+
+                                <div class="history-status">
+                                    SAVED
+                                </div>
+
+                                <span>
+                                    Saved Password #{{ item["id"] }}
+                                </span>
+
+                            </div>
+
+
+                            <span class="history-date">
+                                {{ item["created_at"] }}
+                            </span>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <p class="empty-history">
+                    No password history available yet.
+                </p>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- Stronger Alternatives -->
+        <section class="result-card">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>Stronger Alternatives</h2>
+
+                    <p>
+                        Generate a stronger password suggestion
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="alternative">
+
+                <span id="suggestedPassword">
+                    Orbit_Violet_Anchor74^
+                </span>
+
+                <button
+                    type="button"
+                    onclick="copySuggestedPassword()"
+                >
+                    Copy
+                </button>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="generate-btn"
+                onclick="generateAlternative()"
+            >
+                ↻ Generate New
+            </button>
+
+        </section>
+
+
+        <!-- Save -->
+        <div class="save-section">
+
+            {% if already_used %}
+
+                <p class="warning">
+                    ⚠ This password has been used before.
+                </p>
+
+            {% else %}
+
+                <form
+                    action="/save-password"
+                    method="POST"
+                >
+
+                    <input
+                        type="hidden"
+                        name="password"
+                        value="{{ password }}"
+                    >
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                    >
+                        Save to History
+                    </button>
+
+                </form>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Strength JavaScript -->
+<script>
+
+    const strengthBar =
+        document.querySelector(".strength-fill");
+
+    const strengthScore =
+        document.querySelector(".strength-score");
+
+
+    if (strengthBar) {
+
+        const strength =
+            Number(strengthBar.dataset.strength);
+
+        strengthBar.style.width =
+            strength + "%";
+
+
+        if (strength < 50) {
+
+            strengthBar.classList.add("weak");
+
+            strengthScore.classList.add("weak");
+
+        }
+
+        else if (strength < 70) {
+
+            strengthBar.classList.add("fair");
+
+            strengthScore.classList.add("fair");
+
+        }
+
+        else {
+
+            strengthBar.classList.add("strong");
+
+            strengthScore.classList.add("strong");
+
+        }
+
+    }
+
+</script>
+
+
+<!-- Password Generator -->
+<script>
+
+    const words = [
+        "Orbit",
+        "Violet",
+        "Anchor",
+        "Jasmine",
+        "Cobalt",
+        "Quartz",
+        "Tiger",
+        "River",
+        "Moon",
+        "Forest",
+        "Silver",
+        "Rocket",
+        "Shadow",
+        "Crystal",
+        "Falcon"
+    ];
+
+
+    const symbols = "!@#$%^&*";
+
+
+    function randomItem(array) {
+
+        const random =
+            new Uint32Array(1);
+
+        crypto.getRandomValues(random);
+
+        return array[
+            random[0] % array.length
+        ];
+
+    }
+
+
+    function generateAlternative() {
+
+        const word1 =
+            randomItem(words);
+
+        const word2 =
+            randomItem(words);
+
+        const word3 =
+            randomItem(words);
+
+
+        const numberArray =
+            new Uint32Array(1);
+
+        crypto.getRandomValues(numberArray);
+
+
+        const number =
+            10 + (numberArray[0] % 90);
+
+
+        const symbol =
+            randomItem(symbols.split(""));
+
+
+        const password =
+            word1 +
+            "_" +
+            word2 +
+            "_" +
+            word3 +
+            number +
+            symbol;
+
+
+        document
+            .getElementById("suggestedPassword")
+            .textContent = password;
+
+    }
+
+
+    async function copySuggestedPassword() {
+
+        const password =
+            document
+                .getElementById("suggestedPassword")
+                .textContent;
+
+
+        await navigator.clipboard.writeText(password);
+
+    }
+
+</script>
+
+</body>
+
+</html>

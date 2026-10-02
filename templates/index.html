@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Password Security Analyzer</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="page">
+
+        <div class="password-card">
+
+            <!-- Header -->
+            <div class="brand">
+                <div class="brand-icon">◈</div>
+
+                <div>
+                    <span class="brand-name">PASSWORD LAB</span>
+                    <span class="brand-status">
+                        ● ANALYZER READY
+                    </span>
+                </div>
+            </div>
+
+
+            <!-- Title -->
+            <div class="intro">
+
+                <h1>Password Security Analyzer</h1>
+
+                <p>
+                    Evaluate your password strength before you use it.
+                </p>
+
+            </div>
+
+
+            <!-- Password Form -->
+            <form action="/analyze" method="POST">
+
+                <label for="password">
+                    PASSWORD
+                </label>
+
+                <div class="password-input">
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="off"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="show-btn"
+                        onclick="togglePassword()"
+                    >
+                        Show
+                    </button>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="analyze-btn"
+                >
+                    <span>Analyze Password</span>
+                    <span class="arrow">→</span>
+                </button>
+
+            </form>
+
+
+            <!-- Privacy -->
+            <div class="privacy">
+
+                <div class="privacy-icon">
+                    ◇
+                </div>
+
+                <div>
+
+                    <strong>
+                        Your password stays private
+                    </strong>
+
+                    <p>
+                        Your password is analyzed securely
+                        and is never displayed as plain text.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Footer -->
+            <div class="card-footer">
+
+                <span>
+                    LOCAL ANALYSIS
+                </span>
+
+                <span class="footer-line"></span>
+
+                <span>
+                    SECURE
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function togglePassword() {
+
+            const password =
+                document.getElementById("password");
+
+            const button =
+                document.querySelector(".show-btn");
+
+            if (password.type === "password") {
+
+                password.type = "text";
+                button.textContent = "Hide";
+
+            } else {
+
+                password.type = "password";
+                button.textContent = "Show";
+
+            }
+
+        }
+
+    </script>
+
+</body>
+</html>
