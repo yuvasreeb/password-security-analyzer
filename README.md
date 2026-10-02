@@ -25,8 +25,9 @@ https://password-security-analyzer-cysz.onrender.com
 - Flask
 - SQLite
 
- 📁 Project Structure
+## 📁 Project Structure
 
+```text
 password-security-analyzer/
 ├── app.py
 ├── database.db
@@ -37,6 +38,7 @@ password-security-analyzer/
     ├── index.html
     ├── result.html
     └── saved.html
+```
 
 ## Security Note
 
