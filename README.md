@@ -53,7 +53,7 @@ Save Password to History
 
 The main interface allows users to enter a password and analyze its security strength.
 
-![Password Analyzer](Screenshot-1.png)
+![Password Analyzer](screenshot-1.png)
 
 ### Password Security Analysis
 
